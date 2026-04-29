@@ -1,0 +1,42 @@
+---
+import { getCollection, render } from "astro:content";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+};
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{post.data.title} | Cloudflare Pages Test</title>
+  </head>
+  <body>
+    <article>
+      <h1>{post.data.title}</h1>
+      <p>{post.data.description}</p>
+      <small>{post.data.pubDate.toISOString().slice(0, 10)}</small>
+      <hr />
+      <Content />
+      {
+        post.data.tags.length > 0 && (
+          <ul>
+            {post.data.tags.map((tag) => (
+              <li>#{tag}</li>
+            ))}
+          </ul>
+        )
+      }
+    </article>
+    <p><a href="/posts">← Posts一覧へ</a></p>
+  </body>
+</html>
