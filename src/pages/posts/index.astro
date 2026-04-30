@@ -9,7 +9,11 @@ const posts = (await getCollection("blog")).sort(
 );
 ---
 
-<BaseLayout title="Posts | Cloudflare Pages Test">
+<BaseLayout
+  title="Posts | Cloudflare Pages Test"
+  description="ブログ記事の一覧ページ。"
+  canonicalUrl="/posts"
+>
   <h1 class="title">Posts</h1>
   <ul class="list">
     {
