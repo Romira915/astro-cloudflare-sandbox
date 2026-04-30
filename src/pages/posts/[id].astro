@@ -1,5 +1,9 @@
 ---
-import { getCollection, render } from "astro:content";
+import {
+  getCollection,
+  render,
+  type CollectionEntry,
+} from "astro:content";
 import type { GetStaticPaths } from "astro";
 import styles from "../../styles/site.module.css";
 
@@ -11,7 +15,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }));
 };
 
-const { post } = Astro.props;
+type Props = { post: CollectionEntry<"blog"> };
+const { post } = Astro.props as Props;
 const { Content } = await render(post);
 ---
 
