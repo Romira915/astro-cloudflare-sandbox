@@ -1,11 +1,38 @@
 ---
+import Button from "../components/Button.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import styles from "../styles/site.module.css";
 ---
 
 <BaseLayout title="Cloudflare Pages Test">
-  <h1 class={styles.title}>Hello, Cloudflare Pages!</h1>
-  <nav class={styles.nav}>
-    <a href="/posts">Posts一覧を見る</a>
-  </nav>
+  <section class="hero">
+    <h1 class="title">Hello, Cloudflare Pages!</h1>
+    <p class="lead">
+      Astro + Cloudflare Pages の構成検証用サンドボックス。
+    </p>
+    <div class="actions">
+      <Button href="/posts">Posts一覧を見る</Button>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .hero {
+    padding: var(--space-6) 0;
+  }
+
+  .title {
+    font-size: 2rem;
+    margin: 0 0 var(--space-4);
+    letter-spacing: -0.01em;
+  }
+
+  .lead {
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-6);
+  }
+
+  .actions {
+    display: flex;
+    gap: var(--space-3);
+  }
+</style>
