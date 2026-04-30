@@ -1,7 +1,8 @@
 ---
 import { getCollection } from "astro:content";
+import Button from "../../components/Button.astro";
+import PostCard from "../../components/PostCard.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import styles from "../../styles/site.module.css";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -9,19 +10,40 @@ const posts = (await getCollection("blog")).sort(
 ---
 
 <BaseLayout title="Posts | Cloudflare Pages Test">
-  <h1 class={styles.title}>Posts</h1>
-  <ul class={styles.postList}>
+  <h1 class="title">Posts</h1>
+  <ul class="list">
     {
       posts.map((post) => (
-        <li class={styles.postItem}>
-          <a href={`/posts/${post.id}`}>{post.data.title}</a>
-          <p>{post.data.description}</p>
-          <small class={styles.postMeta}>
-            {post.data.pubDate.toISOString().slice(0, 10)}
-          </small>
+        <li>
+          <PostCard
+            href={`/posts/${post.id}`}
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+          />
         </li>
       ))
     }
   </ul>
-  <p class={styles.nav}><a href="/">← トップへ戻る</a></p>
+  <p class="back">
+    <Button href="/" variant="ghost">← トップへ戻る</Button>
+  </p>
 </BaseLayout>
+
+<style>
+  .title {
+    font-size: 2rem;
+    margin: 0 0 var(--space-4);
+    letter-spacing: -0.01em;
+  }
+
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .back {
+    margin-top: var(--space-6);
+  }
+</style>

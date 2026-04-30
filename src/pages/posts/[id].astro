@@ -5,8 +5,9 @@ import {
   type CollectionEntry,
 } from "astro:content";
 import type { GetStaticPaths } from "astro";
+import Button from "../../components/Button.astro";
+import Tag from "../../components/Tag.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import styles from "../../styles/site.module.css";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection("blog");
@@ -19,26 +20,66 @@ export const getStaticPaths: GetStaticPaths = async () => {
 type Props = { post: CollectionEntry<"blog"> };
 const { post } = Astro.props as Props;
 const { Content } = await render(post);
+const dateLabel = post.data.pubDate.toISOString().slice(0, 10);
 ---
 
 <BaseLayout title={`${post.data.title} | Cloudflare Pages Test`}>
-  <article class={styles.article}>
-    <h1>{post.data.title}</h1>
-    <p>{post.data.description}</p>
-    <small class={styles.postMeta}>
-      {post.data.pubDate.toISOString().slice(0, 10)}
-    </small>
+  <article class="article">
+    <h1 class="title">{post.data.title}</h1>
+    <p class="lead">{post.data.description}</p>
+    <small class="meta">{dateLabel}</small>
     <hr />
     <Content />
     {
       post.data.tags.length > 0 && (
-        <ul class={styles.tagList}>
+        <ul class="tags">
           {post.data.tags.map((tag) => (
-            <li class={styles.tag}>#{tag}</li>
+            <li>
+              <Tag name={tag} />
+            </li>
           ))}
         </ul>
       )
     }
   </article>
-  <p class={styles.nav}><a href="/posts">← Posts一覧へ</a></p>
+  <p class="back">
+    <Button href="/posts" variant="ghost">← Posts一覧へ</Button>
+  </p>
 </BaseLayout>
+
+<style>
+  .title {
+    font-size: 1.75rem;
+    margin: 0 0 var(--space-1);
+    letter-spacing: -0.01em;
+  }
+
+  .lead {
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-2);
+  }
+
+  .meta {
+    color: var(--color-text-subtle);
+    font-size: 0.875rem;
+  }
+
+  .article hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: var(--space-6) 0;
+  }
+
+  .tags {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-8);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .back {
+    margin-top: var(--space-6);
+  }
+</style>
