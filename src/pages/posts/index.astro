@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 import styles from "../../styles/site.module.css";
 
 const posts = (await getCollection("blog")).sort(
@@ -7,29 +8,20 @@ const posts = (await getCollection("blog")).sort(
 );
 ---
 
-<html lang="ja">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Posts | Cloudflare Pages Test</title>
-  </head>
-  <body>
-    <main class={styles.container}>
-      <h1 class={styles.title}>Posts</h1>
-      <ul class={styles.postList}>
-        {
-          posts.map((post) => (
-            <li class={styles.postItem}>
-              <a href={`/posts/${post.id}`}>{post.data.title}</a>
-              <p>{post.data.description}</p>
-              <small class={styles.postMeta}>
-                {post.data.pubDate.toISOString().slice(0, 10)}
-              </small>
-            </li>
-          ))
-        }
-      </ul>
-      <p class={styles.nav}><a href="/">← トップへ戻る</a></p>
-    </main>
-  </body>
-</html>
+<BaseLayout title="Posts | Cloudflare Pages Test">
+  <h1 class={styles.title}>Posts</h1>
+  <ul class={styles.postList}>
+    {
+      posts.map((post) => (
+        <li class={styles.postItem}>
+          <a href={`/posts/${post.id}`}>{post.data.title}</a>
+          <p>{post.data.description}</p>
+          <small class={styles.postMeta}>
+            {post.data.pubDate.toISOString().slice(0, 10)}
+          </small>
+        </li>
+      ))
+    }
+  </ul>
+  <p class={styles.nav}><a href="/">← トップへ戻る</a></p>
+</BaseLayout>

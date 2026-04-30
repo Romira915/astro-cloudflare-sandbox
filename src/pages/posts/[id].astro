@@ -5,6 +5,7 @@ import {
   type CollectionEntry,
 } from "astro:content";
 import type { GetStaticPaths } from "astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 import styles from "../../styles/site.module.css";
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -20,33 +21,24 @@ const { post } = Astro.props as Props;
 const { Content } = await render(post);
 ---
 
-<html lang="ja">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{post.data.title} | Cloudflare Pages Test</title>
-  </head>
-  <body>
-    <main class={styles.container}>
-      <article class={styles.article}>
-        <h1>{post.data.title}</h1>
-        <p>{post.data.description}</p>
-        <small class={styles.postMeta}>
-          {post.data.pubDate.toISOString().slice(0, 10)}
-        </small>
-        <hr />
-        <Content />
-        {
-          post.data.tags.length > 0 && (
-            <ul class={styles.tagList}>
-              {post.data.tags.map((tag) => (
-                <li class={styles.tag}>#{tag}</li>
-              ))}
-            </ul>
-          )
-        }
-      </article>
-      <p class={styles.nav}><a href="/posts">← Posts一覧へ</a></p>
-    </main>
-  </body>
-</html>
+<BaseLayout title={`${post.data.title} | Cloudflare Pages Test`}>
+  <article class={styles.article}>
+    <h1>{post.data.title}</h1>
+    <p>{post.data.description}</p>
+    <small class={styles.postMeta}>
+      {post.data.pubDate.toISOString().slice(0, 10)}
+    </small>
+    <hr />
+    <Content />
+    {
+      post.data.tags.length > 0 && (
+        <ul class={styles.tagList}>
+          {post.data.tags.map((tag) => (
+            <li class={styles.tag}>#{tag}</li>
+          ))}
+        </ul>
+      )
+    }
+  </article>
+  <p class={styles.nav}><a href="/posts">← Posts一覧へ</a></p>
+</BaseLayout>
