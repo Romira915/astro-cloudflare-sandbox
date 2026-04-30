@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import styles from "../../styles/site.module.css";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -13,18 +14,22 @@ const posts = (await getCollection("blog")).sort(
     <title>Posts | Cloudflare Pages Test</title>
   </head>
   <body>
-    <h1>Posts</h1>
-    <ul>
-      {
-        posts.map((post) => (
-          <li>
-            <a href={`/posts/${post.id}`}>{post.data.title}</a>
-            <p>{post.data.description}</p>
-            <small>{post.data.pubDate.toISOString().slice(0, 10)}</small>
-          </li>
-        ))
-      }
-    </ul>
-    <p><a href="/">← トップへ戻る</a></p>
+    <main class={styles.container}>
+      <h1 class={styles.title}>Posts</h1>
+      <ul class={styles.postList}>
+        {
+          posts.map((post) => (
+            <li class={styles.postItem}>
+              <a href={`/posts/${post.id}`}>{post.data.title}</a>
+              <p>{post.data.description}</p>
+              <small class={styles.postMeta}>
+                {post.data.pubDate.toISOString().slice(0, 10)}
+              </small>
+            </li>
+          ))
+        }
+      </ul>
+      <p class={styles.nav}><a href="/">← トップへ戻る</a></p>
+    </main>
   </body>
 </html>
