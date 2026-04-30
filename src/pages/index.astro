@@ -1,4 +1,5 @@
 ---
+import styles from "../styles/site.module.css";
 ---
 
 <html lang="ja">
@@ -8,9 +9,11 @@
     <title>Cloudflare Pages Test</title>
   </head>
   <body>
-    <h1>Hello, Cloudflare Pages!</h1>
-    <nav>
-      <a href="/posts">Posts一覧を見る</a>
-    </nav>
+    <main class={styles.container}>
+      <h1 class={styles.title}>Hello, Cloudflare Pages!</h1>
+      <nav class={styles.nav}>
+        <a href="/posts">Posts一覧を見る</a>
+      </nav>
+    </main>
   </body>
 </html>
